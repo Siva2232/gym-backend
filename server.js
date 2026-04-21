@@ -22,15 +22,18 @@ const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
-    methods: ['GET', 'POST'],
+    origin: function (origin, callback) {
+      callback(null, true);
+    },
     credentials: true,
   },
 });
 
 // Middleware
 app.use(cors({
-  origin: '*',
+  origin: function (origin, callback) {
+    callback(null, true);
+  },
   credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));
